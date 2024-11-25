@@ -130,13 +130,13 @@ const renderNode = (node) => {
       const {
         image: { src, width, height },
         altText,
-        containerData: { alignment },
+        containerData,
       } = node.imageData;
 
       const alignmentClass =
-        alignment === "CENTER"
+      containerData?.alignment === "CENTER"
           ? "mx-auto"
-          : alignment === "LEFT"
+          : containerData?.alignment === "LEFT"
           ? "mr-auto"
           : "ml-auto";
       const wixImageUrl = `https://static.wixstatic.com/media/${src._id}`;
