@@ -17,10 +17,11 @@ const TypographySection = ({ data, id }) => {
 
     const sectionRef = useRef(null)
 
-    useEffect(() => {
-        if (!isMobile) {
 
-            const section = sectionRef.current
+
+    useEffect(() => {
+        const section = sectionRef.current
+        if (!isMobile) {
 
             if (section) {
                 gsap.set(section, { opacity: 0, y: 50 })
@@ -43,9 +44,16 @@ const TypographySection = ({ data, id }) => {
             return () => {
                 ScrollTrigger.getAll().forEach(trigger => trigger.kill())
             }
+        } else {
+
+            if (section) {
+                gsap.set(section, { opacity: 1, y: 0 })
+            }
+            return () => {
+                ScrollTrigger.getAll().forEach(trigger => trigger.kill())
+            }
         }
     }, [isMobile])
-
     useEffect(() => {
         setIsMounted(true);
 

@@ -2,37 +2,51 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useScreenWidth } from '@/lip/useScreenWidth';
 
 const Feature = ({ data }) => {
     const [hoveredId, setHoveredId] = useState(null);
 
     const sectionRef = useRef(null)
+    const isMobile = useScreenWidth(767)
+
 
     useEffect(() => {
-      const section = sectionRef.current
-  
-      if (section) {
-        gsap.set(section, { opacity: 0, y: 50 })
-  
-        ScrollTrigger.create({
-          trigger: section,
-          start: 'top 80%',
-          onEnter: () => {
-            gsap.to(section, {
-              opacity: 1,
-              y: 0,
-              duration: 0.5,
-              ease: 'power2.out'
-            })
-          },
-          once: true
-        })
-      }
-  
-      return () => {
-        ScrollTrigger.getAll().forEach(trigger => trigger.kill())
-      }
-    }, [])
+        const section = sectionRef.current
+        if (!isMobile) {
+
+            if (section) {
+                gsap.set(section, { opacity: 0, y: 50 })
+
+                ScrollTrigger.create({
+                    trigger: section,
+                    start: 'top 80%',
+                    onEnter: () => {
+                        gsap.to(section, {
+                            opacity: 1,
+                            y: 0,
+                            duration: 0.5,
+                            ease: 'power2.out'
+                        })
+                    },
+                    once: true
+                })
+            }
+
+            return () => {
+                ScrollTrigger.getAll().forEach(trigger => trigger.kill())
+            }
+        } else {
+
+            if (section) {
+                gsap.set(section, { opacity: 1, y: 0 })
+            }
+            return () => {
+                ScrollTrigger.getAll().forEach(trigger => trigger.kill())
+            }
+        }
+    }, [isMobile])
+
 
     return (
         <div ref={sectionRef} className="layout py-20">
@@ -46,12 +60,12 @@ const Feature = ({ data }) => {
                         const isHovered = hoveredId === index;
 
                         return (
-                            <div 
-                                key={index} 
+                            <div
+                                key={index}
                                 className={`flex flex-col items-center col-span-1 mt-10 ${data.featureNumber}`}
                             >
-                                <div 
-                                    className='rounded-full p-1' 
+                                <div
+                                    className='rounded-full p-1'
                                     style={{ background: `linear-gradient(90deg, ${data.featuresAddedGradient.start}, ${data.featuresAddedGradient.end})` }}
                                 >
                                     <div

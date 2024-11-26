@@ -11,8 +11,8 @@ const ProvidedSolution = ({ data }) => {
   const isMobile = useScreenWidth(767)
 
   useEffect(() => {
+    const section = sectionRef.current
     if (!isMobile) {
-      const section = sectionRef.current
 
       if (section) {
         gsap.set(section, { opacity: 0, y: 50 })
@@ -32,6 +32,14 @@ const ProvidedSolution = ({ data }) => {
         })
       }
 
+      return () => {
+        ScrollTrigger.getAll().forEach(trigger => trigger.kill())
+      }
+    } else {
+
+      if (section) {
+        gsap.set(section, { opacity: 1, y: 0 })
+      }
       return () => {
         ScrollTrigger.getAll().forEach(trigger => trigger.kill())
       }

@@ -11,33 +11,40 @@ const EndResult = ({ data }) => {
   const isMobile = useScreenWidth(767)
 
   useEffect(() => {
-
+    const section = sectionRef.current
     if (!isMobile) {
-      const section = sectionRef.current
 
-      if (section) {
-        gsap.set(section, { opacity: 0, y: 50 })
+        if (section) {
+            gsap.set(section, { opacity: 0, y: 50 })
 
-        ScrollTrigger.create({
-          trigger: section,
-          start: 'top 80%',
-          onEnter: () => {
-            gsap.to(section, {
-              opacity: 1,
-              y: 0,
-              duration: 0.5,
-              ease: 'power2.out'
+            ScrollTrigger.create({
+                trigger: section,
+                start: 'top 80%',
+                onEnter: () => {
+                    gsap.to(section, {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.5,
+                        ease: 'power2.out'
+                    })
+                },
+                once: true
             })
-          },
-          once: true
-        })
-      }
+        }
 
-      return () => {
-        ScrollTrigger.getAll().forEach(trigger => trigger.kill())
-      }
+        return () => {
+            ScrollTrigger.getAll().forEach(trigger => trigger.kill())
+        }
+    } else {
+
+        if (section) {
+            gsap.set(section, { opacity: 1, y: 0 })
+        }
+        return () => {
+            ScrollTrigger.getAll().forEach(trigger => trigger.kill())
+        }
     }
-  }, [isMobile])
+}, [isMobile])
   return (
     <div ref={sectionRef} className='py-20 md:py-40 relative'>
       <div className="layout">
